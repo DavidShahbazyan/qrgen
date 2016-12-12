@@ -20,6 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
@@ -63,6 +64,7 @@ public class Main extends Application {
                 }
             }
         });
+        VBox.setVgrow(textArea, Priority.ALWAYS);
 
         Label resultTitle = new Label("Results");
 
@@ -72,6 +74,7 @@ public class Main extends Application {
         imageView.setFitWidth(200);
 
         Button btnSaveImage = new Button("Save to PC");
+        btnSaveImage.setStyle("-fx-background-color: #00A; -fx-text-fill: #FFF;");
         btnSaveImage.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Image");
@@ -90,23 +93,41 @@ public class Main extends Application {
         VBox resultBlock = new VBox(5, resultTitle, imageView, btnSaveImage);
         resultBlock.setAlignment(Pos.TOP_CENTER);
         resultBlock.visibleProperty().bind(img.isNotNull());
-        resultBlock.managedProperty().bind(img.isNotNull());
+//        resultBlock.managedProperty().bind(img.isNotNull());
 
         Button btnReset = new Button("Reset");
-        btnReset.setOnAction(event -> textArea.clear());
+        btnReset.setStyle("-fx-background-color: #A00; -fx-text-fill: #FFF;");
+        btnReset.setOnAction(event -> {
+            img.setValue(null);
+            textArea.clear();
+        });
 
         Button btnStart = new Button("Start");
-        btnStart.setOnAction(event -> img.set(SwingFXUtils.toFXImage(generateImage(textArea.getText()), null)));
+        btnStart.setStyle("-fx-background-color: #0A0; -fx-text-fill: #FFF;");
+        btnStart.setOnAction(event -> {
+            if (!textArea.getText().isEmpty()) {
+                img.set(SwingFXUtils.toFXImage(generateImage(textArea.getText()), null));
+            }
+        });
 
         HBox btnBox = new HBox(5, btnReset, btnStart);
         btnBox.setAlignment(Pos.TOP_CENTER);
 
-        VBox root = new VBox(5, title, resultBlock, charsLeft, textArea, btnBox);
+        VBox formBlock = new VBox(5, resultBlock, charsLeft, textArea, btnBox);
+        formBlock.setAlignment(Pos.TOP_CENTER);
+
+        HBox content = new HBox(5, resultBlock, formBlock);
+        content.setAlignment(Pos.TOP_CENTER);
+
+        VBox root = new VBox(5, title, content);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(15));
 
+        primaryStage.setTitle("QR-Gen");
+        primaryStage.getIcons().setAll(new Image("images/icons/png/16x16.png"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.setResizable(false);
         primaryStage.requestFocus();
     }
 
