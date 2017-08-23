@@ -1,7 +1,12 @@
 package arm.davsoft.qrgen;
 
+import arm.davsoft.qrgen.api.QRType;
+import arm.davsoft.qrgen.impl.QRTypeText;
+import arm.davsoft.qrgen.impl.QRTypeWiFiNetwork;
+import arm.davsoft.qrgen.util.QRGenerator;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -85,7 +90,7 @@ public class Main extends Application {
                 try {
                     ImageIO.write(SwingFXUtils.fromFXImage(img.get(), null), "gif", file);
                 } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
+                    System.err.println(ex.getMessage());
                 }
             }
         });
@@ -106,7 +111,12 @@ public class Main extends Application {
         btnStart.setStyle("-fx-background-color: #0A0; -fx-text-fill: #FFF;");
         btnStart.setOnAction(event -> {
             if (!textArea.getText().isEmpty()) {
-                img.set(SwingFXUtils.toFXImage(generateImage(textArea.getText()), null));
+                try {
+                    QRType qrType = new QRTypeText().setText(textArea.getText());
+                    img.set(SwingFXUtils.toFXImage(QRGenerator.generateImage(qrType), null));
+                } catch (WriterException ex) {
+                    System.err.println(ex.getMessage());
+                }
             }
         });
 
@@ -131,50 +141,4 @@ public class Main extends Application {
         primaryStage.requestFocus();
     }
 
-    private void saveImage(BufferedImage image) {
-        try {
-            ImageIO.write(image, "GIF", new File("./qr.gif"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private BufferedImage generateImage(String content) {
-        try {
-            int qrCodeSize = 1000;
-
-            Hashtable<EncodeHintType, Object> hintMap = new Hashtable<>();
-            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-            hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            hintMap.put(EncodeHintType.MARGIN, 2);
-
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize, hintMap);
-
-
-            int matrixWidth = bitMatrix.getWidth();
-            BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
-            image.createGraphics();
-            Graphics2D graphics = (Graphics2D) image.getGraphics();
-
-            graphics.setColor(Color.WHITE);
-            graphics.fillRect(0, 0, matrixWidth, matrixWidth);
-
-            Color mainColor = new Color(0, 100, 0);
-            graphics.setColor(mainColor);
-
-            //Write Bit Matrix as image
-            for (int i = 0; i < matrixWidth; i++) {
-                for (int j = 0; j < matrixWidth; j++) {
-                    if (bitMatrix.get(i, j)) {
-                        graphics.fillRect(i, j, 1, 1);
-                    }
-                }
-            }
-            return image;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
 }

@@ -25,12 +25,6 @@ public class QRGenerator {
         int qrCodeSize = 200;
 
         String content = data.getData();
-//        String content = new QRTypeWiFiNetwork()
-//                .setSsid("DavSoft-WiFi-2")
-//                .setPass("eYn4$dyRKMN*GJK")
-//                .setType("WPA")
-//                .getData();
-//        content.append("eYn4$dyRKMN*GJK");
 
         Hashtable<EncodeHintType, Object> hintMap = new Hashtable<>();
 
@@ -40,7 +34,7 @@ public class QRGenerator {
         // H = ~30% correction
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
         hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-//        hintMap.put(EncodeHintType.MARGIN, 1); /* default = 4 */
+        hintMap.put(EncodeHintType.MARGIN, 1); /* default = 4 */
 
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize, hintMap);
