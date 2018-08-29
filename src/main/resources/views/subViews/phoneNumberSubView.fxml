@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="am.davsoft.qrgen.controllers.subViews.PhoneNumberSubViewController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label layoutX="286.0" layoutY="192.0" text="PhoneNumber" />
 
-</AnchorPane>
+<VBox spacing="25.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.PhoneNumberSubViewController">
+   <children>
+      <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Phone Number" />
+   </children>
+   <padding>
+      <Insets top="15.0" />
+   </padding>
+</VBox>

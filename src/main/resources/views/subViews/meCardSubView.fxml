@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="am.davsoft.qrgen.controllers.subViews.MeCardSubViewController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label layoutX="286.0" layoutY="192.0" text="MeCard" />
 
-</AnchorPane>
+<VBox spacing="25.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.MeCardSubViewController">
+   <children>
+      <HBox spacing="10.0">
+         <children>
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Name" HBox.hgrow="ALWAYS" />
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Company" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox spacing="10.0">
+         <children>
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Phone" HBox.hgrow="ALWAYS" />
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Website" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox spacing="10.0">
+         <children>
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Email" HBox.hgrow="ALWAYS" />
+            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Address" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Note" />
+   </children>
+    <padding>
+        <Insets top="15.0" />
+    </padding>
+</VBox>

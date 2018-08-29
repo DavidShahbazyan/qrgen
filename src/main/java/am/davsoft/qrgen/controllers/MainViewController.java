@@ -1,19 +1,43 @@
 package am.davsoft.qrgen.controllers;
 
+import am.davsoft.qrgen.controllers.subViews.SubViewController;
 import am.davsoft.qrgen.helpers.SubView;
+import am.davsoft.qrgenerator.QRGenerator;
+import am.davsoft.qrgenerator.api.QRData;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,12 +54,13 @@ public class MainViewController implements Initializable {
     private static final String MENU_BUTTON_DEFAULT_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;";
     private static final String MENU_BUTTON_ACTIVE_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: transparent #ffa500  #868686 transparent; -fx-background-color: #777; -fx-border-width: 0 5px 1px 0;";
 
+    @FXML private VBox appMainVBoxPane;
     @FXML private JFXButton btnEmail, btnEvent, btnGeoLocation, btnMeCard, btnPhoneNumber, btnSMS, btnText, btnURL, btnVCard, btnWiFiNetwork;
     @FXML private Label lblSubViewTitle;
     @FXML private ScrollPane subViewContentBox;
 
     private ObjectProperty<SubView> currentSubView = new SimpleObjectProperty<>();
-
+    private SubViewController currentSubViewController;
     private Map<SubView, JFXButton> subViewButtonMappings = new HashMap<>(SubView.values().length);
 
     @Override
@@ -69,6 +94,7 @@ public class MainViewController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResourceAsStream(subView.getSubViewFileName()));
+            currentSubViewController = loader.getController();
             subViewContentBox.setContent(root);
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,6 +151,75 @@ public class MainViewController implements Initializable {
 
     @FXML protected void btnWiFiNetworkAction(ActionEvent event) {
         setCurrentSubView(SubView.WIFI_NETWORK);
+    }
+
+    @FXML protected void btnResetAction(ActionEvent event) {
+        if (currentSubViewController != null) {
+            currentSubViewController.resetForm();
+        }
+    }
+
+    @FXML protected void btnGenerateAction(ActionEvent event) throws WriterException {
+        if (currentSubViewController != null) {
+            QRData qrData = currentSubViewController.getQRData();
+            if (qrData != null) {
+                final Stage dialog = new Stage();
+                dialog.getIcons().setAll(new Image("images/icons/png/16x16.png"));
+                dialog.setTitle(currentSubView.getValue().getSubViewTitle());
+
+                QRGenerator qrGenerator = new QRGenerator();
+                qrGenerator.setErrorCorrectionLevel(ErrorCorrectionLevel.M);
+                qrGenerator.setQrCodeSize(250);
+                qrGenerator.setMargin(0);
+
+                BufferedImage image = qrGenerator.generateImage(qrData);
+                ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
+
+                Paint btnSaveAsFillPaint = Paint.valueOf("WHITE");
+
+                MaterialDesignIconView materialDesignIconView = new MaterialDesignIconView(MaterialDesignIcon.DOWNLOAD);
+                materialDesignIconView.setGlyphSize(16);
+                materialDesignIconView.setFill(btnSaveAsFillPaint);
+
+                Button btnSaveAs = new Button("Save to File");
+                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
+                btnSaveAs.setTextFill(btnSaveAsFillPaint);
+                btnSaveAs.setGraphic(materialDesignIconView);
+                btnSaveAs.setOnAction(e -> {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("GIF Image", "*.gif", "*.GIF"));
+                    File file = fileChooser.showSaveDialog(dialog);
+                    if (file != null) {
+                        try {
+                            ImageIO.write(image, "gif", file);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
+                HBox buttonBar = new HBox(btnSaveAs);
+                buttonBar.setAlignment(Pos.CENTER_RIGHT);
+
+                VBox root = new VBox(imageView, buttonBar);
+                root.setAlignment(Pos.TOP_CENTER);
+                root.setPadding(new Insets(15));
+                root.setSpacing(15);
+
+                Scene dialogScene = new Scene(root);
+                dialog.setScene(dialogScene);
+                dialog.setResizable(false);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.show();
+                dialog.requestFocus();
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error During QR Generation");
+                alert.setHeaderText(null);
+                alert.setContentText("Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
+                alert.showAndWait();
+            }
+        }
     }
 
     @FXML protected void btnConnectByMailAction(ActionEvent event) {

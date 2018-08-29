@@ -1,6 +1,7 @@
 package am.davsoft.qrgen;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,6 +31,7 @@ public class Main extends Application {
         primaryStage.getIcons().setAll(new Image("images/icons/png/16x16.png"));
         primaryStage.setMinHeight(((HBox) root).getPrefHeight());
         primaryStage.setMinWidth(((HBox) root).getPrefWidth());
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 //        primaryStage.setResizable(false);

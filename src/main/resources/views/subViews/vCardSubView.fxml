@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="am.davsoft.qrgen.controllers.subViews.VCardSubViewController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label layoutX="286.0" layoutY="192.0" text="VCard" />
 
-</AnchorPane>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.HBox?>
+<VBox spacing="25.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.VCardSubViewController">
+    <children>
+        <HBox spacing="10.0">
+            <children>
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Name" HBox.hgrow="ALWAYS" />
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Company" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+        <HBox spacing="10.0">
+            <children>
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Title" HBox.hgrow="ALWAYS" />
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Phone" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+        <HBox spacing="10.0">
+            <children>
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Website" HBox.hgrow="ALWAYS" />
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Email" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+        <HBox spacing="10.0">
+            <children>
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Address" HBox.hgrow="ALWAYS" />
+                <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Note" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets top="15.0" />
+    </padding>
+</VBox>
