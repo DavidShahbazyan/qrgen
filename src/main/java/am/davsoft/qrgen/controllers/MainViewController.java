@@ -2,6 +2,7 @@ package am.davsoft.qrgen.controllers;
 
 import am.davsoft.qrgen.controllers.subViews.SubViewController;
 import am.davsoft.qrgen.helpers.SubView;
+import am.davsoft.qrgen.util.Dialogs;
 import am.davsoft.qrgenerator.QRGenerator;
 import am.davsoft.qrgenerator.api.QRData;
 import com.google.zxing.WriterException;
@@ -20,8 +21,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -54,10 +53,14 @@ public class MainViewController implements Initializable {
     private static final String MENU_BUTTON_DEFAULT_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;";
     private static final String MENU_BUTTON_ACTIVE_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: transparent #ffa500  #868686 transparent; -fx-background-color: #777; -fx-border-width: 0 5px 1px 0;";
 
-    @FXML private VBox appMainVBoxPane;
-    @FXML private JFXButton btnEmail, btnEvent, btnGeoLocation, btnMeCard, btnPhoneNumber, btnSMS, btnText, btnURL, btnVCard, btnWiFiNetwork;
-    @FXML private Label lblSubViewTitle;
-    @FXML private ScrollPane subViewContentBox;
+    @FXML
+    private VBox appMainVBoxPane;
+    @FXML
+    private JFXButton btnEmail, btnEvent, btnGeoLocation, btnMeCard, btnPhoneNumber, btnSMS, btnText, btnURL, btnVCard, btnWiFiNetwork;
+    @FXML
+    private Label lblSubViewTitle;
+    @FXML
+    private ScrollPane subViewContentBox;
 
     private ObjectProperty<SubView> currentSubView = new SimpleObjectProperty<>();
     private SubViewController currentSubViewController;
@@ -113,53 +116,65 @@ public class MainViewController implements Initializable {
         this.currentSubView.set(currentSubView);
     }
 
-    @FXML protected void btnEmailAction(ActionEvent event) {
+    @FXML
+    protected void btnEmailAction(ActionEvent event) {
         setCurrentSubView(SubView.EMAIL);
     }
 
-    @FXML protected void btnEventAction(ActionEvent event) {
+    @FXML
+    protected void btnEventAction(ActionEvent event) {
         setCurrentSubView(SubView.EVENT);
     }
 
-    @FXML protected void btnGeoLocationAction(ActionEvent event) {
+    @FXML
+    protected void btnGeoLocationAction(ActionEvent event) {
         setCurrentSubView(SubView.GEO_LOCATION);
     }
 
-    @FXML protected void btnMeCardAction(ActionEvent event) {
+    @FXML
+    protected void btnMeCardAction(ActionEvent event) {
         setCurrentSubView(SubView.ME_CARD);
     }
 
-    @FXML protected void btnPhoneNumberAction(ActionEvent event) {
+    @FXML
+    protected void btnPhoneNumberAction(ActionEvent event) {
         setCurrentSubView(SubView.PHONE_NUMBER);
     }
 
-    @FXML protected void btnSMSAction(ActionEvent event) {
+    @FXML
+    protected void btnSMSAction(ActionEvent event) {
         setCurrentSubView(SubView.SMS);
     }
 
-    @FXML protected void btnTextAction(ActionEvent event) {
+    @FXML
+    protected void btnTextAction(ActionEvent event) {
         setCurrentSubView(SubView.TEXT);
     }
 
-    @FXML protected void btnURLAction(ActionEvent event) {
+    @FXML
+    protected void btnURLAction(ActionEvent event) {
         setCurrentSubView(SubView.URL);
     }
 
-    @FXML protected void btnVCardAction(ActionEvent event) {
+    @FXML
+    protected void btnVCardAction(ActionEvent event) {
         setCurrentSubView(SubView.V_CARD);
     }
 
-    @FXML protected void btnWiFiNetworkAction(ActionEvent event) {
+    @FXML
+    protected void btnWiFiNetworkAction(ActionEvent event) {
         setCurrentSubView(SubView.WIFI_NETWORK);
     }
 
-    @FXML protected void btnResetAction(ActionEvent event) {
+    @FXML
+    protected void btnResetAction(ActionEvent event) {
         if (currentSubViewController != null) {
             currentSubViewController.resetForm();
         }
     }
 
-    @FXML protected void btnGenerateAction(ActionEvent event) throws WriterException {
+    @FXML
+    protected void btnGenerateAction(ActionEvent event) throws WriterException {
         if (currentSubViewController != null) {
             QRData qrData = currentSubViewController.getQRData();
             if (qrData != null) {
@@ -192,6 +207,7 @@ public class MainViewController implements Initializable {
                     if (file != null) {
                         try {
                             ImageIO.write(image, "gif", file);
+                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
@@ -213,16 +229,13 @@ public class MainViewController implements Initializable {
                 dialog.show();
                 dialog.requestFocus();
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error During QR Generation");
-                alert.setHeaderText(null);
-                alert.setContentText("Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
-                alert.showAndWait();
+                Dialogs.showErrorDialog("Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
             }
         }
     }
 
-    @FXML protected void btnConnectByMailAction(ActionEvent event) {
+    @FXML
+    protected void btnConnectByMailAction(ActionEvent event) {
         try {
             Desktop.getDesktop().browse(new URI("mailto:d.shahbazyan@gmail.com"));
         } catch (IOException | URISyntaxException e) {

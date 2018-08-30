@@ -10,23 +10,23 @@
    <children>
       <HBox spacing="10.0">
          <children>
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Name" HBox.hgrow="ALWAYS" />
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Company" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldName" focusColor="ORANGE" labelFloat="true" promptText="Name" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldCompany" focusColor="ORANGE" labelFloat="true" promptText="Company" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox spacing="10.0">
          <children>
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Phone" HBox.hgrow="ALWAYS" />
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Website" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldPhone" focusColor="ORANGE" labelFloat="true" promptText="Phone" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldWebsite" focusColor="ORANGE" labelFloat="true" promptText="Website" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <HBox spacing="10.0">
          <children>
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Email" HBox.hgrow="ALWAYS" />
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Address" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldEmail" focusColor="ORANGE" labelFloat="true" promptText="Email" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldAddress" focusColor="ORANGE" labelFloat="true" promptText="Address" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Note" />
+      <JFXTextField fx:id="txtFieldNote" focusColor="ORANGE" labelFloat="true" promptText="Note" />
    </children>
     <padding>
         <Insets top="15.0" />

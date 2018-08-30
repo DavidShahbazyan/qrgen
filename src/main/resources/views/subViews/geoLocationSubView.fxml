@@ -9,11 +9,11 @@
    <children>
       <HBox spacing="10.0">
          <children>
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Latitude" HBox.hgrow="ALWAYS" />
-            <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Longitude" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldLatitude" focusColor="ORANGE" labelFloat="true" promptText="Latitude" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="txtFieldLongitude" focusColor="ORANGE" labelFloat="true" promptText="Longitude" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Query" />
+      <JFXTextField fx:id="txtFieldQuery" focusColor="ORANGE" labelFloat="true" promptText="Query" />
    </children>
    <padding>
       <Insets top="15.0" />

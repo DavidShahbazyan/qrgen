@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
@@ -11,14 +12,14 @@
     <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-              <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="SSID" HBox.hgrow="ALWAYS" />
-              <JFXCheckBox checkedColor="ORANGE" text="Hidden Network" />
+              <JFXTextField fx:id="txtFieldSSID" focusColor="ORANGE" labelFloat="true" promptText="SSID" HBox.hgrow="ALWAYS" />
+              <JFXCheckBox fx:id="checkBoxHiddenNetwork" checkedColor="ORANGE" text="Hidden Network" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-              <JFXComboBox focusColor="ORANGE" labelFloat="true" promptText="Authentication Type" />
-              <JFXTextField focusColor="ORANGE" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS" />
+              <JFXComboBox fx:id="comboBoxAuthType" focusColor="ORANGE" labelFloat="true" promptText="Authentication Type" />
+            <JFXPasswordField fx:id="passFieldPassword" focusColor="ORANGE" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
     </children>

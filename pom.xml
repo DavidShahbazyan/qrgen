@@ -6,7 +6,24 @@
 
     <groupId>arm.davsoft</groupId>
     <artifactId>qrgen</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>QR Generator</name>
+    <version>1.0</version>
+
+    <developers>
+        <developer>
+            <name>David Shahbazyan</name>
+            <email>d.shahbazyan@gmail.com</email>
+            <roles>
+                <role>Product Owner</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <properties>
+        <jdk.version>1.8</jdk.version>
+        <app.mainClass>am.davsoft.qrgen.Main</app.mainClass>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -42,7 +59,7 @@
     </dependencies>
 
     <build>
-        <!--<finalName>${name}</finalName>-->
+        <finalName>QRGenerator</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,6 +69,54 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<version>2.6</version>-->
+                <!--<configuration>-->
+                    <!--<descriptorRefs>-->
+                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                    <!--</descriptorRefs>-->
+                    <!--<archive>-->
+                        <!--<manifest>-->
+                            <!--<mainClass>${app.mainClass}</mainClass>-->
+                        <!--</manifest>-->
+                    <!--</archive>-->
+                    <!--<appendAssemblyId>false</appendAssemblyId>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>single</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <mainClass>${app.mainClass}</mainClass>
+                    <appName>${project.name}</appName>
+                    <nativeReleaseVersion>${project.version}</nativeReleaseVersion>
+                    <vendor>DavSoft [David Shahbazyan]</vendor>
+                    <verbose>true</verbose>
+                    <allPermissions>true</allPermissions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>native</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
