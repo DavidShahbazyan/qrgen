@@ -40,7 +40,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -237,12 +236,30 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
-    protected void btnConnectByMailAction(ActionEvent event) {
-        try {
-            Desktop.getDesktop().browse(new URI("mailto:d.shahbazyan@gmail.com"));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+    protected void btnConnectByMailAction(ActionEvent event) throws Exception {
+        String mailAddress = "d.shahbazyan@gmail.com";
+        boolean sendingFailed = false;
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.MAIL)) {
+//                URI mailto = new URI("mailto:d.shahbazyan@gmail.com?subject=Hello%20World");
+                URI mailto = new URI("mailto:" + mailAddress);
+                desktop.mail(mailto);
+            } else {
+                sendingFailed = true;
+            }
+        } else {
+            sendingFailed = true;
         }
+        if (sendingFailed) {
+            Dialogs.showErrorDialog("Failed to sent an email", "It seems like I can not launch your mail client for some reason(s)." +
+                    "\nPlease, feel free to send your email to \"" + mailAddress + "\".");
+        }
+//        try {
+//            Desktop.getDesktop().browse(new URI("mailto:d.shahbazyan@gmail.com"));
+//        } catch (IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
 

@@ -12,7 +12,7 @@ public enum SubView {
     PHONE_NUMBER ("Phone Number", "/views/subViews/phoneNumberSubView.fxml"),
     SMS          ("SMS",          "/views/subViews/smsSubView.fxml"),
     TEXT         ("Text",         "/views/subViews/textSubView.fxml"),
-    URL          ("URL",          "/views/subViews/uRLSubView.fxml"),
+    URL          ("URL",          "/views/subViews/urlSubView.fxml"),
     V_CARD       ("VCard",        "/views/subViews/vCardSubView.fxml"),
     WIFI_NETWORK ("WiFi Network", "/views/subViews/wiFiNetworkSubView.fxml"),
     ;
