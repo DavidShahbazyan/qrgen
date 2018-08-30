@@ -87,7 +87,10 @@ public final class Dialogs {
         alert.showAndWait();
     }
 
-//    public static void showAboutAppDialog(Window ownerWindow) {
+    public static void showAboutAppDialog(Window ownerWindow) {
 //        AboutAppDialog.create(ownerWindow).show(true);
-//    }
+        showInfoPopup("About QR Generator", "The \"QR Generator\" application was developed by David Shahbazyan in 2018." +
+                "\nThe program is completely intellectual property and belongs to its developer (David Shahbazyan)." +
+                "\nEmail: d.shahbazyan@gmail.com");
+    }
 }
