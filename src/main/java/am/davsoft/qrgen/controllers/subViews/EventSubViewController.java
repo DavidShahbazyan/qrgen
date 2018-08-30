@@ -33,10 +33,10 @@ public class EventSubViewController extends SubViewController {
         datePickerEndDate.setValue(LocalDate.now());
         timePickerStartDate.setValue(LocalTime.of(9, 0));
         timePickerEndDate.setValue(LocalTime.of(18, 0));
-        hBoxStartDate.visibleProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
-        hBoxStartDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
-        hBoxEndDate.visibleProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
-        hBoxEndDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
+        timePickerStartDate.visibleProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
+        timePickerStartDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
+        timePickerEndDate.visibleProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
+        timePickerEndDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
     }
 
     @Override
@@ -55,11 +55,13 @@ public class EventSubViewController extends SubViewController {
     public QRData getQRData() {
         QRDataEvent qrDataEvent = new QRDataEvent()
                 .setTitle(txtFieldTitle.getText())
+                .setLocation(txtFieldLocation.getText())
                 .setAllDayEvent(checkBoxAllDayEvent.isSelected())
-//                .setStartDate(datePickerStartDate.getValue().atTime(timePickerStartDate.getValue()))
-//                .setEndDate(datePickerEndDate.getValue().atTime(timePickerEndDate.getValue()))
                 .setDescription(txtAreaDescription.getText());
-        if (!checkBoxAllDayEvent.isSelected()) {
+        if (checkBoxAllDayEvent.isSelected()) {
+            qrDataEvent.setStartDate(datePickerStartDate.getValue().atTime(LocalTime.MIN))
+                    .setEndDate(datePickerEndDate.getValue().atTime(LocalTime.MAX));
+        } else {
             qrDataEvent.setStartDate(datePickerStartDate.getValue().atTime(timePickerStartDate.getValue()))
                     .setEndDate(datePickerEndDate.getValue().atTime(timePickerEndDate.getValue()));
         }

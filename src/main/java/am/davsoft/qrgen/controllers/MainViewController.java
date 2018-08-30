@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -200,6 +201,7 @@ public class MainViewController implements Initializable {
                 btnSaveAs.setStyle("-fx-background-color: #ffa500;");
                 btnSaveAs.setTextFill(btnSaveAsFillPaint);
                 btnSaveAs.setGraphic(materialDesignIconView);
+                btnSaveAs.setCursor(Cursor.HAND);
                 btnSaveAs.setOnAction(e -> {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("GIF Image", "*.gif", "*.GIF"));
