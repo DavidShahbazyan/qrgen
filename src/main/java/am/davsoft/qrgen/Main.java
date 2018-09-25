@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,8 +32,8 @@ public class Main extends Application {
         Parent root = loader.load(getClass().getResourceAsStream("/views/main.fxml"));
         primaryStage.setTitle("QR Generator");
         primaryStage.getIcons().setAll(new Image("images/icons/png/16x16.png"));
-        primaryStage.setMinHeight(((HBox) root).getPrefHeight());
-        primaryStage.setMinWidth(((HBox) root).getPrefWidth());
+        primaryStage.setMinHeight(((StackPane) root).getPrefHeight());
+        primaryStage.setMinWidth(((StackPane) root).getPrefWidth());
         primaryStage.setOnCloseRequest(event -> Platform.exit());
         Scene rootScene = new Scene(root);
         rootScene.setOnKeyReleased(event -> {

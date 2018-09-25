@@ -20,14 +20,14 @@
         </HBox>
         <HBox fx:id="hBoxStartDate" spacing="10.0">
             <children>
-                <JFXDatePicker fx:id="datePickerStartDate" defaultColor="ORANGE" promptText="Start Date" />
-            <JFXTimePicker fx:id="timePickerStartDate" defaultColor="ORANGE" promptText="Start Time" />
+                <JFXDatePicker fx:id="datePickerStartDate" defaultColor="ORANGE" overLay="true" promptText="Start Date" />
+            <JFXTimePicker fx:id="timePickerStartDate" defaultColor="ORANGE" overLay="true" promptText="Start Time" />
             </children>
         </HBox>
       <HBox fx:id="hBoxEndDate" spacing="10.0">
          <children>
-            <JFXDatePicker fx:id="datePickerEndDate" defaultColor="ORANGE" promptText="End Date" />
-            <JFXTimePicker fx:id="timePickerEndDate" defaultColor="ORANGE" promptText="End Time" />
+            <JFXDatePicker fx:id="datePickerEndDate" defaultColor="ORANGE" overLay="true" promptText="End Date" />
+            <JFXTimePicker fx:id="timePickerEndDate" defaultColor="ORANGE" overLay="true" promptText="End Time" />
          </children>
       </HBox>
         <JFXTextArea fx:id="txtAreaDescription" focusColor="ORANGE" labelFloat="true" prefHeight="76.0" prefWidth="498.0" promptText="Description" />

@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<?import com.jfoenix.controls.JFXTextArea?>
-<VBox spacing="25.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.TextSubViewController">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.TextSubViewController">
     <children>
-        <JFXTextArea fx:id="txtAreaText" focusColor="ORANGE" labelFloat="true" promptText="Text" />
+        <JFXTextArea fx:id="txtAreaText" focusColor="ORANGE" labelFloat="true" promptText="Text" VBox.vgrow="ALWAYS" />
+      <HBox alignment="CENTER_RIGHT" spacing="5.0">
+         <children>
+            <Label text="Symbols left:" />
+            <Label fx:id="lblSymbolsLeft" text="0" />
+         </children>
+      </HBox>
     </children>
     <padding>
         <Insets top="15.0" />
