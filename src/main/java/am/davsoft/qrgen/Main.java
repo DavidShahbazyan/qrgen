@@ -29,16 +29,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        Parent root = loader.load(getClass().getResourceAsStream("/views/main.fxml"));
+        StackPane root = loader.load(getClass().getResourceAsStream("/views/main.fxml"));
         primaryStage.setTitle("QR Generator");
         primaryStage.getIcons().setAll(new Image("images/icons/png/16x16.png"));
-        primaryStage.setMinHeight(((StackPane) root).getPrefHeight());
-        primaryStage.setMinWidth(((StackPane) root).getPrefWidth());
+        primaryStage.setMinHeight(root.getPrefHeight());
+        primaryStage.setMinWidth(root.getPrefWidth());
         primaryStage.setOnCloseRequest(event -> Platform.exit());
         Scene rootScene = new Scene(root);
         rootScene.setOnKeyReleased(event -> {
             if (event.getCode().equals(KeyCode.F1)) {
-                Dialogs.showAboutAppDialog(primaryStage);
+                Dialogs.showAboutAppDialog(root);
             }
         });
         primaryStage.setScene(rootScene);
