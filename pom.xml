@@ -7,7 +7,7 @@
     <groupId>am.davsoft</groupId>
     <artifactId>qrgen</artifactId>
     <name>QR Generator</name>
-    <version>1.2</version>
+    <version>1.4</version>
 
     <developers>
         <developer>
