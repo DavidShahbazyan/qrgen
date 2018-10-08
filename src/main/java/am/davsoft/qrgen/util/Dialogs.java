@@ -14,9 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -39,13 +37,22 @@ public final class Dialogs {
 
     public static File getUserHomeDir() { return new File(System.getProperty("user.home")); }
 
-    private static void showPopup(StackPane owner, String header, String content, PopupType popupType) {
+    public static JFXDialog createPopup(StackPane owner, String header, Node... body) {
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setHeading(new Label(header));
-        Text text = new Text(content);
-//        text.setTextAlignment(TextAlignment.JUSTIFY);
-//        text.setFont(Font.font("System", 13));
         JFXDialog dialog = new JFXDialog(owner, dialogLayout, JFXDialog.DialogTransition.CENTER, false);
+        dialogLayout.setBody(body);
+//        dialog.show();
+        return dialog;
+    }
+
+    private static void showPopup(StackPane owner, String header, String content, PopupType popupType) {
+        HBox container = new HBox();
+        container.setSpacing(5);
+        container.setAlignment(Pos.TOP_LEFT);
+        JFXDialog dialog = createPopup(owner, header, container);
+
+        Text text = new Text(content);
 
         JFXButton okButton = new JFXButton("Ok");
         okButton.setOnAction(event -> dialog.close());
@@ -62,10 +69,7 @@ public final class Dialogs {
         okButton.setFocusTraversable(false);
         okButton.setCursor(Cursor.HAND);
 
-        HBox container = new HBox();
-        container.setSpacing(5);
-        container.setAlignment(Pos.TOP_LEFT);
-        dialogLayout.setBody(container);
+        JFXDialogLayout dialogLayout = (JFXDialogLayout) dialog.getContent();
         switch (popupType) {
             case INFORMATION:
                 container.getChildren().setAll(new ImageView(new Image("images/icons/png/icon-info.png")), text);

@@ -25,6 +25,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +39,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.jfree.graphics2d.svg.SVGUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -45,9 +48,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author David.Shahbazyan
@@ -56,10 +58,14 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
     private static final String MENU_BUTTON_DEFAULT_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;";
     private static final String MENU_BUTTON_ACTIVE_STYLE = "-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: transparent #ffa500  #868686 transparent; -fx-background-color: #777; -fx-border-width: 0 5px 1px 0;";
+    private static final FileChooser.ExtensionFilter PNG_EXTENSION_FILTER = new FileChooser.ExtensionFilter("PNG Image", "*.png", "*.PNG");
+    private static final FileChooser.ExtensionFilter SVG_EXTENSION_FILTER = new FileChooser.ExtensionFilter("SVG Image", "*.svg", "*.SVG");
+    private static final List<FileChooser.ExtensionFilter> EXTENSION_FILTERS = Arrays.asList(PNG_EXTENSION_FILTER, SVG_EXTENSION_FILTER);
 
+    private final FileChooser fileChooser = new FileChooser();
     private final QRGenerator qrGenerator = new QRGenerator();
     private static int qrCodeSideMargin = 0;
-    private static int qrCodeSideSize = 500;
+    private static int qrCodeSideSize = 250;
 
     @FXML
     private VBox appMainVBoxPane;
@@ -80,8 +86,11 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+//        fileChooser.getExtensionFilters().setAll(EXTENSION_FILTERS);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
         qrGenerator.setErrorCorrectionLevel(ErrorCorrectionLevel.M);
-        qrGenerator.setQrCodeSize(qrCodeSideSize);
+        qrGenerator.setSize(qrCodeSideSize, qrCodeSideSize);
         qrGenerator.setMargin(qrCodeSideMargin);
 
         subViewButtonMappings.put(SubView.EMAIL, btnEmail);
@@ -200,108 +209,6 @@ public class MainViewController implements Initializable {
         }
     }
 
-//    @FXML
-//    protected void btnGenerateAction(ActionEvent event) throws Exception {
-//        if (currentSubViewController != null) {
-//            QRData qrData = currentSubViewController.getQRData();
-//            if (qrData != null) {
-//                final Stage dialog = new Stage();
-//                dialog.getIcons().setAll(new Image("images/icons/png/16x16.png"));
-//                dialog.setTitle(currentSubView.getValue().getSubViewTitle());
-//
-////                Color qrMainColor = qrCodeColorPicker.getValue();
-////                qrGenerator.setMainColor(new java.awt.Color((float) qrMainColor.getRed(), (float) qrMainColor.getGreen(),
-////                        (float) qrMainColor.getBlue(), (float) qrMainColor.getOpacity()));
-//
-//                Runnable qrGenerationProcess = () -> {
-//                    try {
-//                        if (!checkBoxAddLogo.isSelected()) {
-//                            generatedQRImage = qrGenerator.generateImage(qrData);
-//                        } else if (checkBoxAddLogo.isSelected() && selectedLogoFile.get() != null) {
-//                            generatedQRImage = addLogoOverlay(qrGenerator.generateImage(qrData));
-//                        } else {
-//                            Dialogs.showErrorDialog("Error During QR Generation", "No logo file was specified.\nPlease, specify one and try again.");
-//                        }
-//                    } catch (WriterException | IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                };
-//
-//                qrGenerationProcess.run();
-//                ImageView imageView = new ImageView(SwingFXUtils.toFXImage(generatedQRImage, null));
-//
-//                Paint btnSaveAsFillPaint = Paint.valueOf("WHITE");
-//
-//                MaterialDesignIconView materialDesignIconView = new MaterialDesignIconView(MaterialDesignIcon.DOWNLOAD);
-//                materialDesignIconView.setGlyphSize(16);
-//                materialDesignIconView.setFill(btnSaveAsFillPaint);
-//
-//                Label mainColorPickerLabel = new Label("Main Color");
-//                JFXColorPicker mainColorPicker = new JFXColorPicker(Color.rgb(qrGenerator.getMainColor().getRed(), qrGenerator.getMainColor().getGreen(), qrGenerator.getMainColor().getBlue(), qrGenerator.getMainColor().getAlpha() / 255.0));
-//                mainColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-//                    qrGenerator.setMainColor(new java.awt.Color((float) newValue.getRed(), (float) newValue.getGreen(),
-//                            (float) newValue.getBlue(), (float) newValue.getOpacity()));
-//                    qrGenerationProcess.run();
-//                    imageView.setImage(SwingFXUtils.toFXImage(generatedQRImage, null));
-//                });
-//                VBox mainColorPickerBlock = new VBox(mainColorPickerLabel, mainColorPicker);
-//                mainColorPickerBlock.setAlignment(Pos.CENTER);
-//
-//                Label backgroundColorPickerLabel = new Label("Background Color");
-//                JFXColorPicker backgroundColorPicker = new JFXColorPicker(Color.rgb(qrGenerator.getBackgroundColor().getRed(), qrGenerator.getBackgroundColor().getGreen(), qrGenerator.getBackgroundColor().getBlue(), qrGenerator.getBackgroundColor().getAlpha() / 255.0));
-//                backgroundColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-//                    qrGenerator.setBackgroundColor(new java.awt.Color((float) newValue.getRed(), (float) newValue.getGreen(),
-//                            (float) newValue.getBlue(), (float) newValue.getOpacity()));
-//                    qrGenerationProcess.run();
-//                    imageView.setImage(SwingFXUtils.toFXImage(generatedQRImage, null));
-//                });
-//                VBox backgroundColorPickerBlock = new VBox(backgroundColorPickerLabel, backgroundColorPicker);
-//                backgroundColorPickerBlock.setAlignment(Pos.CENTER);
-//
-//                HBox colorPickersBar = new HBox(mainColorPickerBlock, backgroundColorPickerBlock);
-//                colorPickersBar.setAlignment(Pos.CENTER);
-//                colorPickersBar.setSpacing(25);
-//
-//                Button btnSaveAs = new Button("Save to File");
-//                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
-//                btnSaveAs.setTextFill(btnSaveAsFillPaint);
-//                btnSaveAs.setGraphic(materialDesignIconView);
-//                btnSaveAs.setCursor(Cursor.HAND);
-//                btnSaveAs.setOnAction(e -> {
-//                    FileChooser fileChooser = new FileChooser();
-//                    fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("GIF Image", "*.gif", "*.GIF"),
-//                            new FileChooser.ExtensionFilter("PNG Image", "*.png", "*.PNG"));
-//                    File file = fileChooser.showSaveDialog(dialog);
-//                    if (file != null) {
-//                        try {
-//                            ImageIO.write(generatedQRImage, fileChooser.getSelectedExtensionFilter().getExtensions().get(0).substring(2), file);
-//                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                });
-//
-//                HBox buttonBar = new HBox(btnSaveAs);
-//                buttonBar.setAlignment(Pos.CENTER_RIGHT);
-//
-//                VBox root = new VBox(imageView, colorPickersBar, buttonBar);
-//                root.setAlignment(Pos.TOP_CENTER);
-//                root.setPadding(new Insets(15));
-//                root.setSpacing(15);
-//
-//                Scene dialogScene = new Scene(root);
-//                dialog.setScene(dialogScene);
-//                dialog.setResizable(false);
-//                dialog.initModality(Modality.APPLICATION_MODAL);
-//                dialog.show();
-//                dialog.requestFocus();
-//            } else {
-//                Dialogs.showErrorDialog("Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
-//            }
-//        }
-//    }
-
     @FXML
     protected void btnGenerateAction(ActionEvent event) throws Exception {
         if (currentSubViewController != null) {
@@ -337,7 +244,7 @@ public class MainViewController implements Initializable {
                 materialDesignIconView.setFill(btnSaveAsFillPaint);
 
                 Label mainColorPickerLabel = new Label("QR:");
-                JFXColorPicker mainColorPicker = new JFXColorPicker(Color.rgb(qrGenerator.getMainColor().getRed(), qrGenerator.getMainColor().getGreen(), qrGenerator.getMainColor().getBlue(), qrGenerator.getMainColor().getAlpha() / 255.0));
+                JFXColorPicker mainColorPicker = new JFXColorPicker(new Color(qrGenerator.getMainColor().getRed() / 255.0, qrGenerator.getMainColor().getGreen() / 255.0, qrGenerator.getMainColor().getBlue() / 255.0, qrGenerator.getMainColor().getAlpha() / 255.0));
                 mainColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
                     qrGenerator.setMainColor(new java.awt.Color((float) newValue.getRed(), (float) newValue.getGreen(),
                             (float) newValue.getBlue(), (float) newValue.getOpacity()));
@@ -349,7 +256,7 @@ public class MainViewController implements Initializable {
                 mainColorPickerBlock.setAlignment(Pos.CENTER);
 
                 Label backgroundColorPickerLabel = new Label("BG:");
-                JFXColorPicker backgroundColorPicker = new JFXColorPicker(Color.rgb(qrGenerator.getBackgroundColor().getRed(), qrGenerator.getBackgroundColor().getGreen(), qrGenerator.getBackgroundColor().getBlue(), qrGenerator.getBackgroundColor().getAlpha() / 255.0));
+                JFXColorPicker backgroundColorPicker = new JFXColorPicker(new Color(qrGenerator.getBackgroundColor().getRed() / 255.0, qrGenerator.getBackgroundColor().getGreen() / 255.0, qrGenerator.getBackgroundColor().getBlue() / 255.0, qrGenerator.getBackgroundColor().getAlpha() / 255.0));
                 backgroundColorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
                     qrGenerator.setBackgroundColor(new java.awt.Color((float) newValue.getRed(), (float) newValue.getGreen(),
                             (float) newValue.getBlue(), (float) newValue.getOpacity()));
@@ -364,15 +271,10 @@ public class MainViewController implements Initializable {
                 colorPickersBar.setAlignment(Pos.CENTER);
                 colorPickersBar.setSpacing(25);
 
-                Button btnSaveAs = new Button("Save to File");
-                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
-                btnSaveAs.setTextFill(btnSaveAsFillPaint);
-                btnSaveAs.setGraphic(materialDesignIconView);
-                btnSaveAs.setCursor(Cursor.HAND);
-                btnSaveAs.setOnAction(e -> {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("GIF Image", "*.gif", "*.GIF"),
-                            new FileChooser.ExtensionFilter("PNG Image", "*.png", "*.PNG"));
+                MenuItem exportToPNGMenuItem = new MenuItem("PNG");
+                exportToPNGMenuItem.setStyle("-fx-accent: #ffa500;");
+                exportToPNGMenuItem.setOnAction(e -> {
+                    fileChooser.getExtensionFilters().setAll(PNG_EXTENSION_FILTER);
                     File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
                     if (file != null) {
                         try {
@@ -384,6 +286,59 @@ public class MainViewController implements Initializable {
                     }
                 });
 
+                MenuItem exportToSVGMenuItem = new MenuItem("SVG");
+                exportToSVGMenuItem.setStyle("-fx-accent: #ffa500;");
+                exportToSVGMenuItem.setOnAction(e -> {
+                    fileChooser.getExtensionFilters().setAll(SVG_EXTENSION_FILTER);
+                    File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
+                    if (file != null) {
+                        try {
+                            SVGUtils.writeToSVG(file, qrGenerator.generateImageAsSVGString(qrData));
+                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
+                        } catch (IOException | WriterException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+
+                MenuItem exportToBase64MenuItem = new MenuItem("Base64");
+                exportToBase64MenuItem.setOnAction(e -> {
+                    try {
+                        JFXTextArea textArea = new JFXTextArea(qrGenerator.generateImageAsBase64(qrData));
+                        textArea.setEditable(false);
+                        JFXDialog popup = Dialogs.createPopup((StackPane) ((Node) event.getSource()).getScene().getRoot(), "QR image in Base64 format.", textArea);
+                        JFXButton closeButton = new JFXButton("Close");
+                        closeButton.setFocusTraversable(false);
+                        closeButton.setCursor(Cursor.HAND);
+                        closeButton.setOnAction(event1 -> popup.close());
+                        ((JFXDialogLayout) popup.getContent()).setActions(closeButton);
+                        popup.show();
+                    } catch (WriterException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+
+                MenuButton exportMenuButton = new MenuButton("Export to:", materialDesignIconView, exportToPNGMenuItem, exportToSVGMenuItem, exportToBase64MenuItem);
+                exportMenuButton.setStyle("-fx-accent: #ffa500; -fx-background-color: #ffa500;");
+
+//                Button btnSaveAs = new Button("Save to File");
+//                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
+//                btnSaveAs.setTextFill(btnSaveAsFillPaint);
+//                btnSaveAs.setGraphic(materialDesignIconView);
+//                btnSaveAs.setCursor(Cursor.HAND);
+//                btnSaveAs.setOnAction(e -> {
+//                    File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
+//                    if (file != null) {
+//                        try {
+//                            ImageIO.write(generatedQRImage, fileChooser.getSelectedExtensionFilter().getExtensions().get(0).substring(2), file);
+//                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                });
+
                 VBox root = new VBox(imageView);
                 root.setAlignment(Pos.TOP_CENTER);
                 root.setPadding(new Insets(15));
@@ -391,7 +346,7 @@ public class MainViewController implements Initializable {
 
                 dialogLayout.setHeading(new Label(currentSubView.getValue().getSubViewTitle()));
                 dialogLayout.setBody(root);
-                dialogLayout.setActions(mainColorPickerBlock, backgroundColorPickerBlock, btnSaveAs);
+                dialogLayout.setActions(mainColorPickerBlock, backgroundColorPickerBlock, exportMenuButton);
                 dialog.show();
             } else {
                 Dialogs.showErrorDialog("Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
