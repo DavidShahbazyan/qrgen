@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataPhoneNumber;
 import com.jfoenix.controls.JFXTextField;
@@ -15,6 +16,13 @@ import java.util.ResourceBundle;
  */
 public class PhoneNumberSubViewController extends SubViewController {
     @FXML private JFXTextField txtFieldPhoneNumber;
+
+    @Override
+    public void prepareForm() {
+        super.prepareForm();
+        super.initControlsForValidation(txtFieldPhoneNumber);
+        txtFieldPhoneNumber.setValidators(ValidatorFactory.createRequiredFieldValidator("Phone number is required!"));
+    }
 
     @Override
     public void resetForm() {

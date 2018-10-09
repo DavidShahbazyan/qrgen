@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataSMS;
 import com.jfoenix.controls.JFXTextArea;
@@ -17,6 +18,14 @@ import java.util.ResourceBundle;
 public class SMSSubViewController extends SubViewController {
     @FXML private JFXTextField txtFieldPhoneNumber;
     @FXML private JFXTextArea txtAreaSMSText;
+
+    @Override
+    public void prepareForm() {
+        super.prepareForm();
+        super.initControlsForValidation(txtFieldPhoneNumber, txtAreaSMSText);
+        txtFieldPhoneNumber.setValidators(ValidatorFactory.createRequiredFieldValidator("Phone number is required!"));
+        txtAreaSMSText.setValidators(ValidatorFactory.createRequiredFieldValidator("SMS text is required!"));
+    }
 
     @Override
     public void resetForm() {

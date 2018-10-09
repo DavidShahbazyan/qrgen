@@ -211,7 +211,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     protected void btnGenerateAction(ActionEvent event) throws Exception {
-        if (currentSubViewController != null) {
+        if (currentSubViewController != null && currentSubViewController.validateForm()) {
             QRData qrData = currentSubViewController.getQRData();
             if (qrData != null) {
 

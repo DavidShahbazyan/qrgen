@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataURL;
 import com.jfoenix.controls.JFXTextField;
@@ -15,6 +16,13 @@ import java.util.ResourceBundle;
  */
 public class URLSubViewController extends SubViewController {
     @FXML private JFXTextField txtFieldURL;
+
+    @Override
+    public void prepareForm() {
+        super.prepareForm();
+        super.initControlsForValidation(txtFieldURL);
+        txtFieldURL.setValidators(ValidatorFactory.createRequiredFieldValidator("URL is required!"));
+    }
 
     @Override
     public void resetForm() {

@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataEvent;
 import com.jfoenix.controls.*;
@@ -26,8 +27,9 @@ public class EventSubViewController extends SubViewController {
     @FXML private HBox hBoxStartDate, hBoxEndDate;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
+    public void prepareForm() {
+        super.prepareForm();
+        super.initControlsForValidation(txtFieldTitle, txtFieldLocation, txtAreaDescription, datePickerStartDate, datePickerEndDate);
         checkBoxAllDayEvent.setSelected(true);
         datePickerStartDate.setValue(LocalDate.now());
         datePickerEndDate.setValue(LocalDate.now());
@@ -37,6 +39,11 @@ public class EventSubViewController extends SubViewController {
         timePickerStartDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
         timePickerEndDate.visibleProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
         timePickerEndDate.managedProperty().bind(checkBoxAllDayEvent.selectedProperty().not());
+        txtFieldTitle.setValidators(ValidatorFactory.createRequiredFieldValidator("Title is required!"));
+        txtFieldLocation.setValidators(ValidatorFactory.createRequiredFieldValidator("Location is required!"));
+        txtAreaDescription.setValidators(ValidatorFactory.createRequiredFieldValidator("Description is required!"));
+        datePickerStartDate.setValidators(ValidatorFactory.createRequiredFieldValidator("Start date is required!"));
+        datePickerEndDate.setValidators(ValidatorFactory.createRequiredFieldValidator("End date is required!"));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataGeoLocation;
 import com.jfoenix.controls.JFXTextField;
@@ -15,6 +16,14 @@ import java.util.ResourceBundle;
  */
 public class GeoLocationSubViewController extends SubViewController {
     @FXML private JFXTextField txtFieldLatitude, txtFieldLongitude, txtFieldQuery;
+
+    @Override
+    public void prepareForm() {
+        super.prepareForm();
+        super.initControlsForValidation(txtFieldLatitude, txtFieldLongitude);
+        txtFieldLatitude.setValidators(ValidatorFactory.createRequiredFieldValidator("Latitude is required!"));
+        txtFieldLongitude.setValidators(ValidatorFactory.createRequiredFieldValidator("Longitude is required!"));
+    }
 
     @Override
     public void resetForm() {

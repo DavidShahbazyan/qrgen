@@ -1,5 +1,6 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataText;
 import com.jfoenix.controls.JFXTextArea;
@@ -20,12 +21,19 @@ public class TextSubViewController extends SubViewController {
     @Override
     public void prepareForm() {
         super.prepareForm();
+        super.initControlsForValidation(txtAreaText);
         calculateSymbolsLeft();
         txtAreaText.textProperty().addListener(observable -> calculateSymbolsLeft());
+        txtAreaText.setValidators(ValidatorFactory.createRequiredFieldValidator("Text is required!"));
     }
 
     private void calculateSymbolsLeft() {
         lblSymbolsLeft.setText(String.valueOf(getParentViewController().getQrGenerator().getMaxCharsCount() - txtAreaText.getText().length()));
+    }
+
+    @Override
+    public boolean validateForm() {
+        return super.validateForm() && txtAreaText.validate();
     }
 
     @Override
