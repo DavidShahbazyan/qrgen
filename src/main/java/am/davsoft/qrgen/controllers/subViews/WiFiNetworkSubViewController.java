@@ -34,7 +34,7 @@ public class WiFiNetworkSubViewController extends SubViewController {
         comboBoxAuthType.getSelectionModel().select(WiFiEncryptionType.WPA_WPA2);
         passFieldPassword.visibleProperty().bind(Bindings.notEqual(comboBoxAuthType.getSelectionModel().selectedItemProperty(), WiFiEncryptionType.NONE));
         txtFieldSSID.setValidators(ValidatorFactory.createRequiredFieldValidator("SSID is required!"));
-        passFieldPassword.setValidators(ValidatorFactory.createRequiredFieldValidator("Password is required!"));
+        passFieldPassword.setValidators(ValidatorFactory.createConditionalRequiredFieldValidator(() -> passFieldPassword.isVisible(), "Password is required!"));
     }
 
     @Override

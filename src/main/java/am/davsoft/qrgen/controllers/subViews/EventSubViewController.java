@@ -44,6 +44,8 @@ public class EventSubViewController extends SubViewController {
         txtAreaDescription.setValidators(ValidatorFactory.createRequiredFieldValidator("Description is required!"));
         datePickerStartDate.setValidators(ValidatorFactory.createRequiredFieldValidator("Start date is required!"));
         datePickerEndDate.setValidators(ValidatorFactory.createRequiredFieldValidator("End date is required!"));
+        timePickerStartDate.setValidators(ValidatorFactory.createConditionalRequiredFieldValidator(() -> timePickerStartDate.isVisible(), "Start time is required!"));
+        timePickerEndDate.setValidators(ValidatorFactory.createConditionalRequiredFieldValidator(() -> timePickerEndDate.isVisible(), "End time is required!"));
     }
 
     @Override

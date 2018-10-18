@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.VBox?>
-
-
 <?import javafx.geometry.Insets?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.HBox?>
-<VBox spacing="25.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.VCardSubViewController">
+
+<VBox spacing="35.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.VCardSubViewController">
     <children>
         <HBox spacing="10.0">
             <children>

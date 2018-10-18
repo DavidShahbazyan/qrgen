@@ -68,6 +68,17 @@
                            <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_BOX_OUTLINE" size="16" />
                         </graphic>
                      </JFXButton>
+                     <JFXButton fx:id="btnVCard" alignment="BOTTOM_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="185.0" maxWidth="1.7976931348623157E308" onAction="#btnVCardAction" style="-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;" text="VCard" textFill="WHITE">
+                        <font>
+                           <Font name="Segoe UI" size="13.0" />
+                        </font>
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <graphic>
+                           <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_BOX_OUTLINE" size="16" />
+                        </graphic>
+                     </JFXButton>
                      <JFXButton fx:id="btnPhoneNumber" alignment="BOTTOM_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="85.0" maxWidth="1.7976931348623157E308" onAction="#btnPhoneNumberAction" style="-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;" text="Phone Number" textFill="WHITE">
                         <font>
                            <Font name="Segoe UI" size="13.0" />
@@ -110,17 +121,6 @@
                         </cursor>
                         <graphic>
                            <MaterialDesignIconView fill="WHITE" glyphName="LINK_VARIANT" size="16" />
-                        </graphic>
-                     </JFXButton>
-                     <JFXButton fx:id="btnVCard" alignment="BOTTOM_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="185.0" maxWidth="1.7976931348623157E308" onAction="#btnVCardAction" style="-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;" text="VCard" textFill="WHITE">
-                        <font>
-                           <Font name="Segoe UI" size="13.0" />
-                        </font>
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                        <graphic>
-                           <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_BOX_OUTLINE" size="16" />
                         </graphic>
                      </JFXButton>
                      <JFXButton fx:id="btnWiFiNetwork" alignment="BOTTOM_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="210.0" maxWidth="1.7976931348623157E308" onAction="#btnWiFiNetworkAction" style="-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;" text="WiFi Network" textFill="WHITE">
