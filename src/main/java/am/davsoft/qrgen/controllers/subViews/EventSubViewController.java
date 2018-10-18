@@ -50,6 +50,7 @@ public class EventSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldTitle.setText("");
         txtFieldLocation.setText("");
         checkBoxAllDayEvent.setSelected(true);

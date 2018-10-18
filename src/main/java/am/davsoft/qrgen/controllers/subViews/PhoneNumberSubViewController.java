@@ -26,6 +26,7 @@ public class PhoneNumberSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldPhoneNumber.setText("");
     }
 

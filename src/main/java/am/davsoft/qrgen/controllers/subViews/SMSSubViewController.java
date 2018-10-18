@@ -29,6 +29,7 @@ public class SMSSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldPhoneNumber.setText("");
         txtAreaSMSText.setText("");
     }

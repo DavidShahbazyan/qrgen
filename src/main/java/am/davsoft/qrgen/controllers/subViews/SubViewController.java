@@ -53,7 +53,9 @@ public abstract class SubViewController implements Initializable {
         return NODES_TO_VALIDATE.stream().allMatch(IFXValidatableControl::validate);
     }
 
-    public abstract void resetForm();
+    public void resetForm() {
+        NODES_TO_VALIDATE.forEach(IFXValidatableControl::resetValidation);
+    }
 
     public abstract QRData getQRData();
 }

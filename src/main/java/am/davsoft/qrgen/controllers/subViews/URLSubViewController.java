@@ -26,6 +26,7 @@ public class URLSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldURL.setText("");
     }
 

@@ -27,6 +27,7 @@ public class GeoLocationSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldLatitude.setText("");
         txtFieldLongitude.setText("");
         txtFieldQuery.setText("");

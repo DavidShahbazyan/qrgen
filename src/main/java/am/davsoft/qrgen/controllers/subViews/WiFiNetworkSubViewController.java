@@ -39,6 +39,7 @@ public class WiFiNetworkSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldSSID.setText("");
         passFieldPassword.setText("");
         checkBoxHiddenNetwork.setSelected(false);

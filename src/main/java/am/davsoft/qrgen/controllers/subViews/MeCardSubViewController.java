@@ -27,6 +27,7 @@ public class MeCardSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldName.setText("");
         txtFieldCompany.setText("");
         txtFieldPhone.setText("");

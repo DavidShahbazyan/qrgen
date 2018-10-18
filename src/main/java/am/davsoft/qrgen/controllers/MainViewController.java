@@ -22,23 +22,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.jfree.graphics2d.svg.SVGUtils;
 
 import javax.imageio.ImageIO;
@@ -64,7 +58,6 @@ public class MainViewController implements Initializable {
 
     private final FileChooser fileChooser = new FileChooser();
     private final QRGenerator qrGenerator = new QRGenerator();
-    private static int qrCodeSideMargin = 0;
     private static int qrCodeSideSize = 250;
 
     @FXML
@@ -91,7 +84,7 @@ public class MainViewController implements Initializable {
 
         qrGenerator.setErrorCorrectionLevel(ErrorCorrectionLevel.M);
         qrGenerator.setSize(qrCodeSideSize, qrCodeSideSize);
-        qrGenerator.setMargin(qrCodeSideMargin);
+        qrGenerator.setMargin(0);
 
         subViewButtonMappings.put(SubView.EMAIL, btnEmail);
         subViewButtonMappings.put(SubView.EVENT, btnEvent);
@@ -212,11 +205,12 @@ public class MainViewController implements Initializable {
     @FXML
     protected void btnGenerateAction(ActionEvent event) throws Exception {
         if (currentSubViewController != null && currentSubViewController.validateForm()) {
+            StackPane ownerStackPane = (StackPane) ((Node) event.getSource()).getScene().getRoot();
             QRData qrData = currentSubViewController.getQRData();
             if (qrData != null) {
 
-                JFXDialogLayout dialogLayout = new JFXDialogLayout();
-                JFXDialog dialog = new JFXDialog(((StackPane) ((Node) event.getSource()).getScene().getRoot()), dialogLayout, JFXDialog.DialogTransition.CENTER);
+                JFXDialog dialog = Dialogs.createPopup(ownerStackPane, "");
+                JFXDialogLayout dialogLayout = (JFXDialogLayout) dialog.getContent();
 
                 Runnable qrGenerationProcess = () -> {
                     try {
@@ -225,7 +219,7 @@ public class MainViewController implements Initializable {
                         } else if (checkBoxAddLogo.isSelected() && selectedLogoFile.get() != null) {
                             generatedQRImage = addLogoOverlay(qrGenerator.generateImage(qrData));
                         } else {
-                            Dialogs.showErrorDialog("Error During QR Generation", "No logo file was specified.\nPlease, specify one and try again.");
+                            Dialogs.showErrorDialog(ownerStackPane, "Error During QR Generation", "No logo file was specified.\nPlease, specify one and try again.");
                         }
                     } catch (WriterException | IOException ex) {
                         ex.printStackTrace();
@@ -279,7 +273,7 @@ public class MainViewController implements Initializable {
                     if (file != null) {
                         try {
                             ImageIO.write(generatedQRImage, fileChooser.getSelectedExtensionFilter().getExtensions().get(0).substring(2), file);
-                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
+                            Dialogs.showInfoPopup(ownerStackPane,"Success!", "The QR has been successfully saved to file.");
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -294,7 +288,7 @@ public class MainViewController implements Initializable {
                     if (file != null) {
                         try {
                             SVGUtils.writeToSVG(file, qrGenerator.generateImageAsSVGString(qrData));
-                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
+                            Dialogs.showInfoPopup(ownerStackPane, "Success!", "The QR has been successfully saved to file.");
                         } catch (IOException | WriterException ex) {
                             ex.printStackTrace();
                         }
@@ -322,23 +316,6 @@ public class MainViewController implements Initializable {
                 MenuButton exportMenuButton = new MenuButton("Export to:", materialDesignIconView, exportToPNGMenuItem, exportToSVGMenuItem, exportToBase64MenuItem);
                 exportMenuButton.setStyle("-fx-accent: #ffa500; -fx-background-color: #ffa500;");
 
-//                Button btnSaveAs = new Button("Save to File");
-//                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
-//                btnSaveAs.setTextFill(btnSaveAsFillPaint);
-//                btnSaveAs.setGraphic(materialDesignIconView);
-//                btnSaveAs.setCursor(Cursor.HAND);
-//                btnSaveAs.setOnAction(e -> {
-//                    File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
-//                    if (file != null) {
-//                        try {
-//                            ImageIO.write(generatedQRImage, fileChooser.getSelectedExtensionFilter().getExtensions().get(0).substring(2), file);
-//                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                });
-
                 VBox root = new VBox(imageView);
                 root.setAlignment(Pos.TOP_CENTER);
                 root.setPadding(new Insets(15));
@@ -349,7 +326,7 @@ public class MainViewController implements Initializable {
                 dialogLayout.setActions(mainColorPickerBlock, backgroundColorPickerBlock, exportMenuButton);
                 dialog.show();
             } else {
-                Dialogs.showErrorDialog("Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
+                Dialogs.showErrorDialog(ownerStackPane, "Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
             }
         }
     }
@@ -398,7 +375,7 @@ public class MainViewController implements Initializable {
             sendingFailed = true;
         }
         if (sendingFailed) {
-            Dialogs.showErrorDialog("Failed to sent an email", "It seems like I can not launch your mail client for some reason(s)." +
+            Dialogs.showErrorDialog((StackPane) ((Node) event.getSource()).getScene().getRoot(), "Failed to sent an email", "It seems like I can not launch your mail client for some reason(s)." +
                     "\nPlease, feel free to send your email to \"" + mailAddress + "\".");
         }
     }

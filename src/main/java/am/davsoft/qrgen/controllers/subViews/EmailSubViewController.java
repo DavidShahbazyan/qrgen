@@ -31,12 +31,8 @@ public class EmailSubViewController extends SubViewController {
     }
 
     @Override
-    public boolean validateForm() {
-        return super.validateForm() && txtFieldEmailAddress.validate();
-    }
-
-    @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldEmailAddress.setText("");
     }
 

@@ -32,12 +32,8 @@ public class TextSubViewController extends SubViewController {
     }
 
     @Override
-    public boolean validateForm() {
-        return super.validateForm() && txtAreaText.validate();
-    }
-
-    @Override
     public void resetForm() {
+        super.resetForm();
         txtAreaText.setText("");
     }
 

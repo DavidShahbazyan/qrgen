@@ -30,6 +30,7 @@ public class VCardSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
+        super.resetForm();
         txtFieldName.setText("");
         txtFieldCompany.setText("");
         txtFieldTitle.setText("");
