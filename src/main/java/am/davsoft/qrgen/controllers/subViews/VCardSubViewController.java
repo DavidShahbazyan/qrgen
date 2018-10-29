@@ -3,6 +3,8 @@ package am.davsoft.qrgen.controllers.subViews;
 import am.davsoft.qrgen.util.ValidatorFactory;
 import am.davsoft.qrgenerator.api.QRData;
 import am.davsoft.qrgenerator.impl.QRDataVCard;
+import am.davsoft.qrgenerator.model.ContactName;
+import am.davsoft.qrgenerator.model.PhoneNumber;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,13 +17,16 @@ import java.util.ResourceBundle;
  * @since Aug 28, 2018
  */
 public class VCardSubViewController extends SubViewController {
-    @FXML private JFXTextField txtFieldName, txtFieldCompany, txtFieldTitle, txtFieldPhone, txtFieldWebsite, txtFieldEmail, txtFieldAddress, txtFieldNote;
+    @FXML private JFXTextField txtFieldFirstName, txtFieldMiddleName, txtFieldLastName, txtFieldCompany, txtFieldTitle,
+            txtFieldPhone, txtFieldWebsite, txtFieldEmail, txtFieldAddress, txtFieldNote;
 
     @Override
     public void prepareForm() {
         super.prepareForm();
-        super.initControlsForValidation(txtFieldName, txtFieldCompany, txtFieldTitle, txtFieldPhone, txtFieldEmail);
-        txtFieldName.setValidators(ValidatorFactory.createRequiredFieldValidator("Name is required!"));
+        super.initControlsForValidation(txtFieldFirstName, txtFieldMiddleName, txtFieldLastName, txtFieldCompany, txtFieldTitle, txtFieldPhone, txtFieldEmail);
+        txtFieldFirstName.setValidators(ValidatorFactory.createRequiredFieldValidator("First Name is required!"));
+//        txtFieldMiddleName.setValidators(ValidatorFactory.createRequiredFieldValidator("Middle Name is required!"));
+        txtFieldLastName.setValidators(ValidatorFactory.createRequiredFieldValidator("Last Name is required!"));
         txtFieldCompany.setValidators(ValidatorFactory.createRequiredFieldValidator("Company is required!"));
         txtFieldTitle.setValidators(ValidatorFactory.createRequiredFieldValidator("Title is required!"));
         txtFieldPhone.setValidators(ValidatorFactory.createRequiredFieldValidator("Phone is required!"));
@@ -30,7 +35,9 @@ public class VCardSubViewController extends SubViewController {
 
     @Override
     public void resetForm() {
-        txtFieldName.setText("");
+        txtFieldFirstName.setText("");
+        txtFieldMiddleName.setText("");
+        txtFieldLastName.setText("");
         txtFieldCompany.setText("");
         txtFieldTitle.setText("");
         txtFieldPhone.setText("");
@@ -43,10 +50,16 @@ public class VCardSubViewController extends SubViewController {
     @Override
     public QRData getQRData() {
         return new QRDataVCard()
-                .setName(txtFieldName.getText())
+                .setContactName(new ContactName()
+                        .setFirstName(txtFieldFirstName.getText())
+                        .setMiddleName(txtFieldMiddleName.getText())
+                        .setLastName(txtFieldLastName.getText())
+                )
                 .setCompany(txtFieldCompany.getText())
                 .setTitle(txtFieldTitle.getText())
-                .setPhone(txtFieldPhone.getText())
+                .addPhoneNumber(new PhoneNumber()
+                        .setNumber(txtFieldPhone.getText())
+                )
                 .setWebsite(txtFieldWebsite.getText())
                 .setEmail(txtFieldEmail.getText())
                 .setAddress(txtFieldAddress.getText())
