@@ -10,18 +10,18 @@
 
 <VBox spacing="35.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.subViews.WiFiNetworkSubViewController">
     <children>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-              <JFXTextField fx:id="txtFieldSSID" focusColor="ORANGE" labelFloat="true" promptText="SSID" HBox.hgrow="ALWAYS" />
-              <JFXCheckBox fx:id="checkBoxHiddenNetwork" checkedColor="ORANGE" text="Hidden Network" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-              <JFXComboBox fx:id="comboBoxAuthType" focusColor="ORANGE" labelFloat="true" promptText="Authentication Type" />
-            <JFXPasswordField fx:id="passFieldPassword" focusColor="ORANGE" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <JFXTextField fx:id="txtFieldSSID" focusColor="ORANGE" labelFloat="true" promptText="SSID" HBox.hgrow="ALWAYS" />
+                <JFXCheckBox fx:id="checkBoxHiddenNetwork" checkedColor="ORANGE" text="Hidden Network" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <JFXComboBox fx:id="comboBoxAuthType" focusColor="ORANGE" labelFloat="true" promptText="Authentication Type" />
+                <JFXPasswordField fx:id="passFieldPassword" focusColor="ORANGE" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
     </children>
     <padding>
         <Insets top="15.0" />

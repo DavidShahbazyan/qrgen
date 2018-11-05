@@ -41,6 +41,7 @@ public class Main extends Application {
                 Dialogs.showAboutAppDialog(root);
             }
         });
+        rootScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
         primaryStage.setScene(rootScene);
         primaryStage.show();
 //        primaryStage.setResizable(false);

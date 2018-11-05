@@ -1,19 +1,17 @@
 package am.davsoft.qrgen.validators;
 
-import com.jfoenix.validation.RequiredFieldValidator;
-
 import java.util.function.Supplier;
 
-public class ConditionalRequiredFieldValidator extends RequiredFieldValidator {
+public class ConditionalRegexValidator extends RegexValidator {
     private final Supplier<Boolean> condition;
 
-    public ConditionalRequiredFieldValidator(Supplier<Boolean> condition) {
-        super();
+    public ConditionalRegexValidator(String regex, Supplier<Boolean> condition) {
+        super(regex);
         this.condition = condition;
     }
 
-    public ConditionalRequiredFieldValidator(String message, Supplier<Boolean> condition) {
-        super();
+    public ConditionalRegexValidator(String message, String regex, Supplier<Boolean> condition) {
+        super(message, regex);
         this.condition = condition;
         setMessage(message);
     }

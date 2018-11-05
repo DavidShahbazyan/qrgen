@@ -1,21 +1,20 @@
 package am.davsoft.qrgen.validators;
 
-import com.jfoenix.validation.RequiredFieldValidator;
+import com.jfoenix.validation.NumberValidator;
 
 import java.util.function.Supplier;
 
-public class ConditionalRequiredFieldValidator extends RequiredFieldValidator {
+public class ConditionalNumberValidator extends NumberValidator {
     private final Supplier<Boolean> condition;
 
-    public ConditionalRequiredFieldValidator(Supplier<Boolean> condition) {
+    public ConditionalNumberValidator(Supplier<Boolean> condition) {
         super();
         this.condition = condition;
     }
 
-    public ConditionalRequiredFieldValidator(String message, Supplier<Boolean> condition) {
-        super();
+    public ConditionalNumberValidator(String message, Supplier<Boolean> condition) {
+        super(message);
         this.condition = condition;
-        setMessage(message);
     }
 
     @Override

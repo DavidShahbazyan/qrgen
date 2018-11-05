@@ -1,0 +1,65 @@
+* {
+    -fx-accent: #ffa500;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: #fff;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(gray, 100%);
+    -fx-padding: 0px;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+}
+
+.scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.scroll-pane .scroll-bar .increment-arrow,
+.scroll-pane .scroll-bar .decrement-arrow {
+    -fx-padding: -2;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.list-view {
+    /*-fx-background-color: #232323;*/
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: derive(-fx-accent, 50%);
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: -fx-accent;
+}
+
+.list-view .list-cell {
+    -fx-background-color: derive(-fx-accent, 75%);
+    -fx-text-fill: #000;
+}
