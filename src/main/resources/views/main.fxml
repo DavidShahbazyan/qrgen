@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -12,16 +13,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.MainViewController">
+<StackPane fx:id="rootStackPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.davsoft.qrgen.controllers.MainViewController">
    <children>
       <HBox>
          <children>
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="225.0" style="-fx-background-color: #484848;">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-border-color: transparent transparent #868686 transparent;" text="QR Generator" textFill="ORANGE">
+                  <Label alignment="CENTER" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="225.0" style="-fx-border-color: transparent transparent #868686 transparent;" text="QR Generator" textFill="ORANGE">
                      <font>
                         <Font name="Jokerman" size="25.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="ORANGE" glyphName="QRCODE" size="30" />
+                     </graphic>
                   </Label>
                   <VBox minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
                      <JFXButton fx:id="btnEmail" alignment="BOTTOM_LEFT" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" onAction="#btnEmailAction" style="-fx-border-radius: 0; -fx-background-radius: 0; -fx-padding: 12px; -fx-border-color: #868686; -fx-border-width: 0 0 1px 0;" text="Email" textFill="WHITE">

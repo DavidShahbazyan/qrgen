@@ -41,11 +41,6 @@
             <artifactId>qr-generator</artifactId>
             <version>${qr-generator.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.google.zxing</groupId>-->
-            <!--<artifactId>core</artifactId>-->
-            <!--<version>${zxing.core.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
@@ -56,12 +51,68 @@
             <artifactId>fontawesomefx</artifactId>
             <version>${fontawesomefx.version}</version>
         </dependency>
+<!--
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>${fontawesomefx.version}</version>
+        </dependency>
+-->
+<!--
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-materialdesignfont</artifactId>
+            <version>${fontawesomefx.version}</version>
+        </dependency>
+-->
+<!--
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>${fontawesomefx.version}</version>
+        </dependency>
+-->
+<!--
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>${fontawesomefx.version}</version>
+        </dependency>
+-->
+<!--
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>${fontawesomefx.version}</version>
+        </dependency>
+-->
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>${controlsfx.version}</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-jerady-maven</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/jerady/maven</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-jerady-maven</id>
+            <name>bintray-plugins</name>
+            <url>http://dl.bintray.com/jerady/maven</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <finalName>QRGenerator</finalName>

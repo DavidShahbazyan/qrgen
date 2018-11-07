@@ -14,6 +14,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,16 +24,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -68,7 +67,7 @@ public class MainViewController implements Initializable {
     private static int qrCodeSideSize = 250;
 
     @FXML
-    private VBox appMainVBoxPane;
+    private StackPane rootStackPane;
     @FXML
     private JFXButton btnEmail, btnEvent, btnGeoLocation, btnMeCard, btnPhoneNumber, btnSMS, btnText, btnURL, btnVCard, btnWiFiNetwork;
     @FXML
@@ -214,10 +213,6 @@ public class MainViewController implements Initializable {
         if (currentSubViewController != null && currentSubViewController.validateForm()) {
             QRData qrData = currentSubViewController.getQRData();
             if (qrData != null) {
-
-                JFXDialogLayout dialogLayout = new JFXDialogLayout();
-                JFXDialog dialog = new JFXDialog(((StackPane) ((Node) event.getSource()).getScene().getRoot()), dialogLayout, JFXDialog.DialogTransition.CENTER);
-
                 Runnable qrGenerationProcess = () -> {
                     try {
                         if (!checkBoxAddLogo.isSelected()) {
@@ -225,9 +220,10 @@ public class MainViewController implements Initializable {
                         } else if (checkBoxAddLogo.isSelected() && selectedLogoFile.get() != null) {
                             generatedQRImage = addLogoOverlay(qrGenerator.generateImage(qrData));
                         } else {
-                            Dialogs.showErrorDialog("Error During QR Generation", "No logo file was specified.\nPlease, specify one and try again.");
+                            Dialogs.showErrorPopup(rootStackPane, "Error During QR Generation", "No logo file was specified.\nPlease, specify one and try again.");
                         }
                     } catch (WriterException | IOException ex) {
+                        Dialogs.showErrorPopup(rootStackPane, "Error During QR Generation", ex.getMessage());
                         ex.printStackTrace();
                     }
                 };
@@ -237,11 +233,16 @@ public class MainViewController implements Initializable {
                 imageView.setFitHeight(350);
                 imageView.setFitWidth(350);
 
-                Paint btnSaveAsFillPaint = Paint.valueOf("WHITE");
+                VBox containerVBox= new VBox(imageView);
+                containerVBox.setAlignment(Pos.TOP_CENTER);
+                containerVBox.setPadding(new Insets(15));
+                containerVBox.setSpacing(15);
+
+                JFXDialog dialog = Dialogs.createPopup(rootStackPane, currentSubView.getValue().getSubViewTitle(), containerVBox);
 
                 MaterialDesignIconView materialDesignIconView = new MaterialDesignIconView(MaterialDesignIcon.DOWNLOAD);
-                materialDesignIconView.setGlyphSize(16);
-                materialDesignIconView.setFill(btnSaveAsFillPaint);
+                materialDesignIconView.setGlyphSize(20);
+//                materialDesignIconView.setFill(Paint.valueOf("WHITE"));
 
                 Label mainColorPickerLabel = new Label("QR:");
                 JFXColorPicker mainColorPicker = new JFXColorPicker(new Color(qrGenerator.getMainColor().getRed() / 255.0, qrGenerator.getMainColor().getGreen() / 255.0, qrGenerator.getMainColor().getBlue() / 255.0, qrGenerator.getMainColor().getAlpha() / 255.0));
@@ -271,9 +272,7 @@ public class MainViewController implements Initializable {
                 colorPickersBar.setAlignment(Pos.CENTER);
                 colorPickersBar.setSpacing(25);
 
-                MenuItem exportToPNGMenuItem = new MenuItem("PNG");
-                exportToPNGMenuItem.setStyle("-fx-accent: #ffa500;");
-                exportToPNGMenuItem.setOnAction(e -> {
+                EventHandler<ActionEvent> exportToPNGEventHandler = e -> {
                     fileChooser.getExtensionFilters().setAll(PNG_EXTENSION_FILTER);
                     File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
                     if (file != null) {
@@ -284,11 +283,9 @@ public class MainViewController implements Initializable {
                             ex.printStackTrace();
                         }
                     }
-                });
+                };
 
-                MenuItem exportToSVGMenuItem = new MenuItem("SVG");
-                exportToSVGMenuItem.setStyle("-fx-accent: #ffa500;");
-                exportToSVGMenuItem.setOnAction(e -> {
+                EventHandler<ActionEvent> exportToSVGEventHandler = e -> {
                     fileChooser.getExtensionFilters().setAll(SVG_EXTENSION_FILTER);
                     File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
                     if (file != null) {
@@ -299,15 +296,18 @@ public class MainViewController implements Initializable {
                             ex.printStackTrace();
                         }
                     }
-                });
+                };
 
-                MenuItem exportToBase64MenuItem = new MenuItem("Base64");
-                exportToBase64MenuItem.setOnAction(e -> {
+                EventHandler<ActionEvent> exportToBase64EventHandler = e -> {
                     try {
                         JFXTextArea textArea = new JFXTextArea(qrGenerator.generateImageAsBase64(qrData));
+                        textArea.setPrefSize(600, 250);
+                        textArea.setMinSize(600, 250);
+                        textArea.setMaxSize(600, 250);
                         textArea.setEditable(false);
-                        JFXDialog popup = Dialogs.createPopup((StackPane) ((Node) event.getSource()).getScene().getRoot(), "QR image in Base64 format.", textArea);
+                        JFXDialog popup = Dialogs.createPopup(rootStackPane, "QR image in Base64 format.", textArea);
                         JFXButton closeButton = new JFXButton("Close");
+                        closeButton.getStyleClass().add("btn-grey-dark");
                         closeButton.setFocusTraversable(false);
                         closeButton.setCursor(Cursor.HAND);
                         closeButton.setOnAction(event1 -> popup.close());
@@ -316,40 +316,45 @@ public class MainViewController implements Initializable {
                     } catch (WriterException | IOException ex) {
                         ex.printStackTrace();
                     }
-                });
+                };
 
+                JFXButton btnExportButtonsListToggler = new JFXButton("Export to:", materialDesignIconView);
+                btnExportButtonsListToggler.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                btnExportButtonsListToggler.setTooltip(new Tooltip("Export to:"));
+                btnExportButtonsListToggler.getStyleClass().addAll("animated-option-button", "btn-yellow");
 
-                MenuButton exportMenuButton = new MenuButton("Export to:", materialDesignIconView, exportToPNGMenuItem, exportToSVGMenuItem, exportToBase64MenuItem);
-                exportMenuButton.setStyle("-fx-accent: #ffa500; -fx-background-color: #ffa500;");
+                JFXButton btnExportToPNG = new JFXButton("PNG");
+                btnExportToPNG.getStyleClass().addAll("animated-option-sub-button", "btn-yellow");
+                btnExportToPNG.setTooltip(new Tooltip("Save as PNG file"));
+                btnExportToPNG.setOnAction(exportToPNGEventHandler);
 
-//                Button btnSaveAs = new Button("Save to File");
-//                btnSaveAs.setStyle("-fx-background-color: #ffa500;");
-//                btnSaveAs.setTextFill(btnSaveAsFillPaint);
-//                btnSaveAs.setGraphic(materialDesignIconView);
-//                btnSaveAs.setCursor(Cursor.HAND);
-//                btnSaveAs.setOnAction(e -> {
-//                    File file = fileChooser.showSaveDialog(dialog.getDialogContainer().getScene().getWindow());
-//                    if (file != null) {
-//                        try {
-//                            ImageIO.write(generatedQRImage, fileChooser.getSelectedExtensionFilter().getExtensions().get(0).substring(2), file);
-//                            Dialogs.showInfoPopup("Success!", "The QR has been successfully saved to file.");
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                });
+                JFXButton btnExportToSVG = new JFXButton("SVG");
+                btnExportToSVG.getStyleClass().addAll("animated-option-sub-button", "btn-yellow");
+                btnExportToSVG.setTooltip(new Tooltip("Save as SVG file"));
+                btnExportToSVG.setOnAction(exportToSVGEventHandler);
 
-                VBox root = new VBox(imageView);
-                root.setAlignment(Pos.TOP_CENTER);
-                root.setPadding(new Insets(15));
-                root.setSpacing(15);
+                JFXButton btnExportToBase64 = new JFXButton("B64");
+                btnExportToBase64.getStyleClass().addAll("animated-option-sub-button", "btn-yellow");
+                btnExportToBase64.setTooltip(new Tooltip("Generate Base64 string"));
+                btnExportToBase64.setOnAction(exportToBase64EventHandler);
 
-                dialogLayout.setHeading(new Label(currentSubView.getValue().getSubViewTitle()));
-                dialogLayout.setBody(root);
-                dialogLayout.setActions(mainColorPickerBlock, backgroundColorPickerBlock, exportMenuButton);
+                JFXNodesList exportButtonsList = new JFXNodesList();
+                exportButtonsList.setSpacing(5);
+                exportButtonsList.setRotate(180);
+                exportButtonsList.addAnimatedNode(btnExportButtonsListToggler);
+                exportButtonsList.addAnimatedNode(btnExportToPNG);
+                exportButtonsList.addAnimatedNode(btnExportToSVG);
+                exportButtonsList.addAnimatedNode(btnExportToBase64);
+
+                Region region1 = new Region();
+                HBox.setHgrow(region1, Priority.ALWAYS);
+                Region region2 = new Region();
+                HBox.setHgrow(region2, Priority.ALWAYS);
+
+                ((JFXDialogLayout) dialog.getContent()).setActions(mainColorPickerBlock, region1, backgroundColorPickerBlock, region2, exportButtonsList);
                 dialog.show();
             } else {
-                Dialogs.showErrorDialog("Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
+                Dialogs.showErrorPopup(rootStackPane, "Error During QR Generation", "Ooops, it seems like something went wrong during the QR generation!\nPlease, check all the data you have entered and try again.");
             }
         }
     }
@@ -398,7 +403,7 @@ public class MainViewController implements Initializable {
             sendingFailed = true;
         }
         if (sendingFailed) {
-            Dialogs.showErrorDialog("Failed to sent an email", "It seems like I can not launch your mail client for some reason(s)." +
+            Dialogs.showErrorPopup(rootStackPane, "Failed to sent an email", "It seems like I can not launch your mail client for some reason(s)." +
                     "\nPlease, feel free to send your email to \"" + mailAddress + "\".");
         }
     }

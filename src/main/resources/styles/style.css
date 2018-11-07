@@ -2,8 +2,39 @@
     -fx-accent: #ffa500;
 }
 
+.button {
+    -fx-cursor: hand;
+}
+
 .jfx-rippler {
     -jfx-rippler-fill: #fff;
+}
+
+.btn-yellow {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: #000;
+}
+
+.btn-grey-dark {
+    -fx-background-color: #555;
+    -fx-text-fill: #fff;
+}
+
+.animated-option-button {
+    -fx-pref-width: 35px;
+    -fx-pref-height: 35px;
+    -fx-min-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-width: -fx-pref-width;
+    -fx-max-height: -fx-pref-height;
+    /*-fx-background-color: derive(-fx-accent, 75%);*/
+    -fx-background-radius: 50px;
+    /*-fx-border-color: -fx-accent;*/
+    /*-fx-border-radius: 50px;*/
+}
+
+.animated-option-sub-button {
+    -jfx-button-type: RAISED;
 }
 
 .scroll-pane {

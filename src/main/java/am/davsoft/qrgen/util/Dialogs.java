@@ -38,11 +38,14 @@ public final class Dialogs {
     public static File getUserHomeDir() { return new File(System.getProperty("user.home")); }
 
     public static JFXDialog createPopup(StackPane owner, String header, Node... body) {
+        return createPopup(owner, header, true, body);
+    }
+
+    public static JFXDialog createPopup(StackPane owner, String header, boolean overlayClose, Node... body) {
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setHeading(new Label(header));
-        JFXDialog dialog = new JFXDialog(owner, dialogLayout, JFXDialog.DialogTransition.CENTER, false);
+        JFXDialog dialog = new JFXDialog(owner, dialogLayout, JFXDialog.DialogTransition.CENTER, overlayClose);
         dialogLayout.setBody(body);
-//        dialog.show();
         return dialog;
     }
 
@@ -147,6 +150,10 @@ public final class Dialogs {
             retVal = result.get();
         }
         return retVal;
+    }
+
+    public static void showErrorPopup(StackPane ownerStackPane, String title, String content) {
+        showPopup(ownerStackPane, title, content, PopupType.ERROR);
     }
 
     public static void showErrorDialog(String title, String content) {
