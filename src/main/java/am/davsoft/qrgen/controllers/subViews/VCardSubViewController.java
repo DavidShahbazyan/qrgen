@@ -6,19 +6,15 @@ import am.davsoft.qrgenerator.helper.PhoneNumberType;
 import am.davsoft.qrgenerator.impl.QRDataVCard;
 import am.davsoft.qrgenerator.model.ContactName;
 import am.davsoft.qrgenerator.model.PhoneNumber;
-import com.jfoenix.controls.*;
-import javafx.beans.binding.Bindings;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.util.Callback;
-
-import javax.naming.Binding;
 
 /**
  * @author David.Shahbazyan
