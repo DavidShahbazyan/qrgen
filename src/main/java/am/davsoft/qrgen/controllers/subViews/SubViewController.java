@@ -1,14 +1,13 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
 import am.davsoft.qrgen.controllers.MainViewController;
-import am.davsoft.qrgenerator.api.QRData;
 import com.jfoenix.controls.base.IFXValidatableControl;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -57,5 +56,5 @@ public abstract class SubViewController implements Initializable {
         NODES_TO_VALIDATE.forEach(IFXValidatableControl::resetValidation);
     }
 
-    public abstract QRData getQRData();
+    public abstract BarCodeData getQRData();
 }

@@ -1,14 +1,10 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.impl.BarCodeDataGeoLocation;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.impl.QRDataGeoLocation;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -34,10 +30,10 @@ public class GeoLocationSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        return new QRDataGeoLocation()
-                .setLatitude(txtFieldLatitude.getText())
-                .setLongitude(txtFieldLongitude.getText())
-                .setQuery(txtFieldQuery.getText());
+    public BarCodeData getQRData() {
+        return BarCodeDataGeoLocation.newInstance()
+                .withLatitude(txtFieldLatitude.getText())
+                .withLongitude(txtFieldLongitude.getText())
+                .withQuery(txtFieldQuery.getText());
     }
 }

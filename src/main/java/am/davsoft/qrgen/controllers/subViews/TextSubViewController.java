@@ -1,14 +1,11 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.impl.BarCodeDataText;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.impl.QRDataText;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -38,7 +35,7 @@ public class TextSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        return new QRDataText().setText(txtAreaText.getText());
+    public BarCodeData getQRData() {
+        return BarCodeDataText.newInstance().withText(txtAreaText.getText());
     }
 }

@@ -33,8 +33,8 @@
         </dependency>
         <dependency>
             <groupId>am.davsoft</groupId>
-            <artifactId>qr-generator</artifactId>
-            <version>1.2</version>
+            <artifactId>barcodegenerator</artifactId>
+            <version>1.4</version>
         </dependency>
         <dependency>
             <groupId>com.jfoenix</groupId>
@@ -51,12 +51,21 @@
             <artifactId>controlsfx</artifactId>
             <version>8.40.14</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.controlsfx</groupId>-->
-            <!--<artifactId>openjfx-dialogs</artifactId>-->
-            <!--<version>1.0.3</version>-->
-        <!--</dependency>-->
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
+            <id>github</id>
+            <name>GitHub DavidShahbazyan Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/DavidShahbazyan/package-repo</url>
+        </repository>
+    </repositories>
 
     <build>
         <finalName>QRGenerator</finalName>

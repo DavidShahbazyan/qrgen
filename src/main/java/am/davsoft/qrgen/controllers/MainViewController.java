@@ -1,10 +1,11 @@
 package am.davsoft.qrgen.controllers;
 
+import am.davsoft.barcodegenerator.BarCodeGenerator;
+import am.davsoft.barcodegenerator.api.BarCodeData;
 import am.davsoft.qrgen.controllers.subViews.SubViewController;
 import am.davsoft.qrgen.helpers.SubView;
 import am.davsoft.qrgen.util.Dialogs;
-import am.davsoft.qrgenerator.QRGenerator;
-import am.davsoft.qrgenerator.api.QRData;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.jfoenix.controls.*;
@@ -42,8 +43,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * @author David.Shahbazyan
@@ -57,7 +58,7 @@ public class MainViewController implements Initializable {
     private static final List<FileChooser.ExtensionFilter> EXTENSION_FILTERS = Arrays.asList(PNG_EXTENSION_FILTER, SVG_EXTENSION_FILTER);
 
     private final FileChooser fileChooser = new FileChooser();
-    private final QRGenerator qrGenerator = new QRGenerator();
+    private final BarCodeGenerator qrGenerator = new BarCodeGenerator(BarcodeFormat.QR_CODE);
     private static int qrCodeSideSize = 250;
 
     @FXML
@@ -129,7 +130,7 @@ public class MainViewController implements Initializable {
         }
     }
 
-    public QRGenerator getQrGenerator() {
+    public BarCodeGenerator getQrGenerator() {
         return qrGenerator;
     }
 
@@ -206,7 +207,7 @@ public class MainViewController implements Initializable {
     protected void btnGenerateAction(ActionEvent event) throws Exception {
         if (currentSubViewController != null && currentSubViewController.validateForm()) {
             StackPane ownerStackPane = (StackPane) ((Node) event.getSource()).getScene().getRoot();
-            QRData qrData = currentSubViewController.getQRData();
+            BarCodeData qrData = currentSubViewController.getQRData();
             if (qrData != null) {
 
                 JFXDialog dialog = Dialogs.createPopup(ownerStackPane, "");

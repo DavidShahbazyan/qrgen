@@ -1,9 +1,9 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.helper.WiFiEncryptionType;
+import am.davsoft.barcodegenerator.impl.BarCodeDataWiFiNetwork;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.helper.WiFiEncryptionType;
-import am.davsoft.qrgenerator.impl.QRDataWiFiNetwork;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -11,10 +11,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -47,11 +43,11 @@ public class WiFiNetworkSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        return new QRDataWiFiNetwork()
-                .setSsid(txtFieldSSID.getText())
-                .setType(comboBoxAuthType.getValue())
-                .setPass(passFieldPassword.getText())
-                .setHidden(checkBoxHiddenNetwork.isSelected());
+    public BarCodeData getQRData() {
+        return BarCodeDataWiFiNetwork.newInstance()
+                .withSsid(txtFieldSSID.getText())
+                .withType(comboBoxAuthType.getValue())
+                .withPass(passFieldPassword.getText())
+                .withHidden(checkBoxHiddenNetwork.isSelected());
     }
 }

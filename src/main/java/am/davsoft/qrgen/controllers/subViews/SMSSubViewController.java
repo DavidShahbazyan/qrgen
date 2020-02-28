@@ -1,15 +1,11 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.impl.BarCodeDataSMS;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.impl.QRDataSMS;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -35,7 +31,7 @@ public class SMSSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        return new QRDataSMS().setPhone(txtFieldPhoneNumber.getText()).setMessage(txtAreaSMSText.getText());
+    public BarCodeData getQRData() {
+        return BarCodeDataSMS.newInstance().withPhone(txtFieldPhoneNumber.getText()).withMessage(txtAreaSMSText.getText());
     }
 }

@@ -1,14 +1,10 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.impl.BarCodeDataPhoneNumber;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.impl.QRDataPhoneNumber;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -31,7 +27,7 @@ public class PhoneNumberSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        return new QRDataPhoneNumber().setPhone(txtFieldPhoneNumber.getText());
+    public BarCodeData getQRData() {
+        return BarCodeDataPhoneNumber.newInstance().withPhone(txtFieldPhoneNumber.getText());
     }
 }

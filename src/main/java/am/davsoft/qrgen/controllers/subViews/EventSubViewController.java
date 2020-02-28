@@ -1,18 +1,14 @@
 package am.davsoft.qrgen.controllers.subViews;
 
+import am.davsoft.barcodegenerator.api.BarCodeData;
+import am.davsoft.barcodegenerator.impl.BarCodeDataEvent;
 import am.davsoft.qrgen.util.ValidatorFactory;
-import am.davsoft.qrgenerator.api.QRData;
-import am.davsoft.qrgenerator.impl.QRDataEvent;
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
 
-import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ResourceBundle;
 
 /**
  * @author David.Shahbazyan
@@ -62,18 +58,18 @@ public class EventSubViewController extends SubViewController {
     }
 
     @Override
-    public QRData getQRData() {
-        QRDataEvent qrDataEvent = new QRDataEvent()
-                .setTitle(txtFieldTitle.getText())
-                .setLocation(txtFieldLocation.getText())
-                .setAllDayEvent(checkBoxAllDayEvent.isSelected())
-                .setDescription(txtAreaDescription.getText());
+    public BarCodeData getQRData() {
+        BarCodeDataEvent qrDataEvent = BarCodeDataEvent.newInstance()
+                .withTitle(txtFieldTitle.getText())
+                .withLocation(txtFieldLocation.getText())
+                .withAllDayEvent(checkBoxAllDayEvent.isSelected())
+                .withDescription(txtAreaDescription.getText());
         if (checkBoxAllDayEvent.isSelected()) {
-            qrDataEvent.setStartDate(datePickerStartDate.getValue().atTime(LocalTime.MIN))
-                    .setEndDate(datePickerEndDate.getValue().atTime(LocalTime.MAX));
+            qrDataEvent.withStartDate(datePickerStartDate.getValue().atTime(LocalTime.MIN))
+                    .withEndDate(datePickerEndDate.getValue().atTime(LocalTime.MAX));
         } else {
-            qrDataEvent.setStartDate(datePickerStartDate.getValue().atTime(timePickerStartDate.getValue()))
-                    .setEndDate(datePickerEndDate.getValue().atTime(timePickerEndDate.getValue()));
+            qrDataEvent.withStartDate(datePickerStartDate.getValue().atTime(timePickerStartDate.getValue()))
+                    .withEndDate(datePickerEndDate.getValue().atTime(timePickerEndDate.getValue()));
         }
         return qrDataEvent;
     }
